@@ -8,9 +8,6 @@ set(CXX_CMAKE_STANDARD_REQUIRED ON)
 set(IMPROJECTEXE_SOURCES
     main.cpp
     ImPixelWidgetsDemo.cpp
-    RadarWidget.cpp
-    PolarGrid.cpp
-    PixelData.cpp
 )
 
 add_executable(${PROJECT_NAME} ${IMPROJECTEXE_SOURCES})
@@ -19,3 +16,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC .)
 target_link_libraries(${PROJECT_NAME} PUBLIC ImApplication)
 target_link_libraries(${PROJECT_NAME} PUBLIC mini)
 target_link_libraries(${PROJECT_NAME} PUBLIC ImWrapper)
+target_link_libraries(${PROJECT_NAME} PUBLIC ImPixelWidgets)
