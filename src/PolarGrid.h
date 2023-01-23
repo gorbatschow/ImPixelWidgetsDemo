@@ -12,6 +12,7 @@ public:
     setDistanceMin(100.);
     setDistanceMax(1000.);
     setDistanceStep(10.);
+    setBearingBias(-90);
     setBearingMin(0);
     setBearingMax(180);
     setBearingStep(10.);
@@ -63,6 +64,9 @@ public:
 
   inline void setBearingStep(double step) { _bearingStep = step; }
   inline double bearingStep() const { return _bearingStep; }
+
+  inline void setBearingBias(double bias) { _bearingBias = bias; }
+  inline double bearingBias() const { return _bearingBias; }
 
   inline void updateBearingNodes() {
     assert(_bearingMax > _bearingMin);
@@ -157,13 +161,13 @@ public:
   inline double atan2d(double y, double x) { return atan2(y, x) * 180. / M_PI; }
 
   inline void polarToCart(double r, double phi, double &x, double &y) {
-    x = r * cosd(90. - phi);
-    y = r * sind(90. - phi);
+    x = r * cosd(90. - phi - _bearingBias);
+    y = r * sind(90. - phi - _bearingBias);
   }
 
   inline void cartToPolar(double y, double x, double &r, double &phi) {
     r = sqrt(x * x + y * y);
-    phi = fmod(90. - atan2d(y, x) + 360., 360.);
+    phi = fmod(90. - atan2d(y, x) + 360. - _bearingBias, 360.);
   }
 
   inline void polarToNode(double r, double phi, std::size_t &node_r,
@@ -183,6 +187,7 @@ private:
   double _bearingMin{};
   double _bearingMax{};
   double _bearingStep{};
+  double _bearingBias{};
   std::vector<double> _bearingNodes{};
 
   // Cartesian
