@@ -26,6 +26,9 @@ add_subdirectory(external/imwrap)
 # IMAPP
 add_subdirectory(external/imapp)
 
+# IMAPP
+add_subdirectory(external/impixel)
+
 # EXECUTABLE
 add_subdirectory(src)
 
