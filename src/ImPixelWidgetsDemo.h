@@ -4,13 +4,14 @@
 
 class ImPixelWidgetsDemo : public ImApplication {
 public:
+  // Constructor
   ImPixelWidgetsDemo();
 
-  void paint() override {
-    ImGui::Begin("Radar Widget");
-    _radarWidget.paint();
-    ImGui::End();
-  }
+  // Destructor
+  ~ImPixelWidgetsDemo() = default;
+
+  // Paint
+  void paint() override;
 
   RadarWidget _radarWidget;
 

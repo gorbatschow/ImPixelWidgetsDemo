@@ -9,6 +9,8 @@ set(IMPROJECTEXE_SOURCES
     main.cpp
     ImPixelWidgetsDemo.cpp
     RadarWidget.cpp
+    PolarGrid.cpp
+    PixelData.cpp
 )
 
 add_executable(${PROJECT_NAME} ${IMPROJECTEXE_SOURCES})
