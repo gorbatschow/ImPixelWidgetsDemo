@@ -9,7 +9,10 @@ public:
     _grid.makeDefaultGrid();
     _pixels.resize(_grid.pixelWidth(), _grid.pixelHeight());
     _pixels.fill(ColorRGBA_Aqua);
-    _pixels.fill(_grid.nodeToPixels(10, 10));
+    _pixels.fill(_grid.polarToPixel(800, 66));
+    _pixels.fill(_grid.polarToPixel(800, 33));
+    _pixels.fill(_grid.polarToPixel(500, 78));
+    //_pixels.fill({0, 1, 2, 3, 10}, ColorRGBA_Lime);
     _pixels.loadTexture();
 
     const auto r{_grid.distanceMax()};
