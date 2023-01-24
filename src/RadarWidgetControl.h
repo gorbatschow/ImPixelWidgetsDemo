@@ -24,6 +24,7 @@ private:
     Imw::SpinBox<int> bearingStepEdit{"Bearing Step"};
     Imw::SpinBox<int> rotationEdit{"Rotation"};
     Imw::SpinBox<int> pixelSizeEdit{"Image Size"};
+    Imw::CheckBox monochromeFlag{"Monochrome"};
     Imw::CheckBox displayScatterFlag{"Display Grid"};
     Imw::Button updateGridBtn{"Update"};
 

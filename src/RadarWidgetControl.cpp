@@ -21,6 +21,7 @@ void RadarWidgetControl::paint() {
   ui.bearingStepEdit.paint();
   ui.rotationEdit.paint();
   ui.pixelSizeEdit.paint();
+  ui.monochromeFlag.paint();
   ui.displayScatterFlag.paint();
   ImGui::Separator();
   // ui.updateGridBtn.paint();
@@ -54,6 +55,9 @@ void RadarWidgetControl::paint() {
     _polarGrid.setPixelHeight(ui.pixelSizeEdit());
     handle = true;
   }
+  if (ui.monochromeFlag.handle()) {
+    handle = true;
+  }
   if (ui.displayScatterFlag.handle()) {
     _radarWidget.setDisplayScatter(ui.displayScatterFlag());
   }
@@ -69,7 +73,11 @@ void RadarWidgetControl::setTestData() {
   _radarWidget.setGrid(_polarGrid);
 
   // Color Scheme
-  _radarWidget.setColorScheme<ColorSchemeMono>(0, _polarGrid.nodeSize());
+  if (ui.monochromeFlag()) {
+    _radarWidget.setColorScheme<ColorSchemeMono>(0, _polarGrid.nodeSize());
+  } else {
+    _radarWidget.setColorScheme<ColorSchemeTurbo>(0, _polarGrid.nodeSize());
+  }
 
   // Test Data
   std::vector<double> val(_radarWidget.grid().nodeSize());
