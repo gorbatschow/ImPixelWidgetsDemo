@@ -1,5 +1,6 @@
 #pragma once
 #include "RadarWidget.h"
+#include "RadarWidgetControl.h"
 #include <ImApplication.h>
 
 class ImPixelWidgetsDemo : public ImApplication {
@@ -10,11 +11,13 @@ public:
   // Destructor
   ~ImPixelWidgetsDemo() = default;
 
+  // Test Data
+  void setTestData();
+
   // Paint
   void paint() override;
 
+private:
   RadarWidget _radarWidget;
-
-  struct Ui {};
-  Ui ui;
+  RadarWidgetControl _radarWidgetControl{_radarWidget};
 };

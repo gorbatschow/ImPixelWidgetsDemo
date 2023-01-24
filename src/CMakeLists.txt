@@ -8,6 +8,7 @@ set(CXX_CMAKE_STANDARD_REQUIRED ON)
 set(IMPROJECTEXE_SOURCES
     main.cpp
     ImPixelWidgetsDemo.cpp
+    RadarWidgetControl.cpp
 )
 
 add_executable(${PROJECT_NAME} ${IMPROJECTEXE_SOURCES})
