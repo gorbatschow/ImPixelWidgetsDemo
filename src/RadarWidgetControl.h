@@ -35,7 +35,7 @@ private:
       bearingLimitsEdit.setValue(0, 0);
       bearingLimitsEdit.setValue(180, 1);
       bearingStepEdit.setValue(10);
-      rotationEdit.setValue(-90);
+      rotationEdit.setValue(0);
       pixelSizeEdit.setValue(512);
 
       distanceLimitsEdit.setValueLimits({0, 100000}, 0);
