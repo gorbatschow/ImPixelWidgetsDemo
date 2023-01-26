@@ -74,14 +74,18 @@ void RadarWidgetControl::setTestData() {
 
   // Color Scheme
   if (ui.monochromeFlag()) {
-    _radarWidget.setColorScheme<ColorSchemeMono>(0, _polarGrid->nodeSize());
+    _radarWidget.setColorScheme<ColorSchemeMono>(0, _polarGrid->gridSize());
   } else {
-    _radarWidget.setColorScheme<ColorSchemeTurbo>(0, _polarGrid->nodeSize());
+    _radarWidget.setColorScheme<ColorSchemeTurbo>(0, _polarGrid->gridSize());
   }
 
   // Test Data
-  std::vector<double> val(_radarWidget.grid().nodeSize());
+  std::vector<double> val(_polarGrid->gridSize());
   std::iota(val.begin(), val.end(), 0);
-  _radarWidget.setCartesianData(_polarGrid->yNodes2D(), _polarGrid->xNodes2D(),
-                                val.data(), _polarGrid->nodeSize());
+  std::vector<double> r(_polarGrid->gridSize());
+  std::vector<double> phi(_polarGrid->gridSize());
+  _polarGrid->makePolarMesh(r, phi);
+
+  _radarWidget.setPolarData(r.data(), phi.data(), val.data(),
+                            _polarGrid->gridSize());
 }
