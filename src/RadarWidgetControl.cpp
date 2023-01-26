@@ -84,8 +84,12 @@ void RadarWidgetControl::setTestData() {
   std::iota(val.begin(), val.end(), 0);
   std::vector<double> r(_polarGrid->gridSize());
   std::vector<double> phi(_polarGrid->gridSize());
-  _polarGrid->makePolarMesh(r, phi);
 
+  _polarGrid->makePolarMesh(r, phi);
   _radarWidget.setPolarData(r.data(), phi.data(), val.data(),
                             _polarGrid->gridSize());
+
+  //_polarGrid->makeCartesianMesh(r, phi);
+  //_radarWidget.setCartesianData(r.data(), phi.data(), val.data(),
+  //                             _polarGrid->gridSize());
 }
