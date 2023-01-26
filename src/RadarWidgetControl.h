@@ -53,5 +53,6 @@ private:
   RadarWidget &_radarWidget;
   PolarGridConfig _polarConfig;
   std::shared_ptr<PixelPolarGrid> _polarGrid{new PixelPolarGrid()};
-  // std::shared_ptr<PixelMultiPolarGrid> _polarGrid{new PixelMultiPolarGrid()};
+  std::shared_ptr<PixelMultiPolarGrid> _multiPolarGrid{
+      new PixelMultiPolarGrid()};
 };
