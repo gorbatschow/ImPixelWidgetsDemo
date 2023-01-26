@@ -1,4 +1,6 @@
 #pragma once
+#include "PixelMultiPolarGrid.h"
+#include "PixelPolarGrid.h"
 #include "RadarWidget.h"
 #include <imw.h>
 #include <numeric>
@@ -49,5 +51,7 @@ private:
   };
   Ui ui;
   RadarWidget &_radarWidget;
-  PolarGrid _polarGrid;
+  PolarGridConfig _polarConfig;
+  std::shared_ptr<PixelPolarGrid> _polarGrid{new PixelPolarGrid()};
+  // std::shared_ptr<PixelMultiPolarGrid> _polarGrid{new PixelMultiPolarGrid()};
 };
