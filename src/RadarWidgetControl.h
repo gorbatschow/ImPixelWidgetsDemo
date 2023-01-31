@@ -60,8 +60,9 @@ private:
   UiGridConfig ui_gridConfig1, ui_gridConfig2;
 
   RadarWidget &_radarWidget;
-  PolarGridConfig _polarConfig1, _polarConfig2;
+  PolarGridConfig _polarConfig1, _polarConfig2, _polarConfig0;
   std::shared_ptr<PixelMultiPolarGrid> _multiGrid{new PixelMultiPolarGrid()};
+  std::shared_ptr<PixelPolarGrid> _subGrid{new PixelPolarGrid()};
 
   bool paintGridConfig(UiGridConfig &ui, PolarGridConfig &config);
   bool paintGridCommon(UiGridCommon &ui);

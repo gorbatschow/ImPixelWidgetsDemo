@@ -8,13 +8,14 @@ RadarWidgetControl::RadarWidgetControl(RadarWidget &widget)
 
   ui_gridConfig1.distanceLimitsEdit.setValue(100, 0);
   ui_gridConfig1.distanceLimitsEdit.setValue(500, 1);
+  ui_gridConfig1.distanceStepEdit.setValue(100);
 
   ui_gridConfig2.distanceLimitsEdit.setValue(500, 0);
   ui_gridConfig2.distanceLimitsEdit.setValue(1000, 1);
   ui_gridConfig2.bearingLimitsEdit.setValue(30, 0);
   ui_gridConfig2.bearingLimitsEdit.setValue(150, 1);
-  ui_gridConfig2.distanceStepEdit.setValue(20);
-  ui_gridConfig2.bearingStepEdit.setValue(5);
+  ui_gridConfig2.distanceStepEdit.setValue(100);
+  ui_gridConfig2.bearingStepEdit.setValue(10);
 
   triggerGridConfig(ui_gridConfig1);
   triggerGridConfig(ui_gridConfig2);
@@ -64,16 +65,20 @@ bool RadarWidgetControl::paintGridCommon(UiGridCommon &ui) {
     handle = true;
   }
   if (ui.rotationEdit.handle()) {
+    _polarConfig0.setRotation(ui.rotationEdit());
     _polarConfig1.setRotation(ui.rotationEdit());
     _polarConfig2.setRotation(ui.rotationEdit());
     handle = true;
   }
   if (ui.distanceRangeEdit.handle()) {
+    _polarConfig0.setDistanceRange(ui.distanceRangeEdit());
     _polarConfig1.setDistanceRange(ui.distanceRangeEdit());
     _polarConfig2.setDistanceRange(ui.distanceRangeEdit());
     handle = true;
   }
   if (ui.pixelSizeEdit.handle()) {
+    _polarConfig0.setPixelWidth(ui.pixelSizeEdit());
+    _polarConfig0.setPixelHeight(ui.pixelSizeEdit());
     _polarConfig1.setPixelWidth(ui.pixelSizeEdit());
     _polarConfig1.setPixelHeight(ui.pixelSizeEdit());
     _polarConfig2.setPixelWidth(ui.pixelSizeEdit());
@@ -129,6 +134,16 @@ void RadarWidgetControl::setTestData() {
   }
   _radarWidget.setPixelGrid(_multiGrid);
 
+  // Sub Grid
+  _polarConfig0.setBearingMin(0);
+  _polarConfig0.setBearingMax(360);
+  _polarConfig0.setBearingStep(1);
+  _polarConfig0.setDistanceMin(0);
+  _polarConfig0.setDistanceMax(_polarConfig1.distanceRange());
+  _polarConfig0.setDistanceStep(_polarConfig1.distanceStep());
+  _subGrid->setConfig(_polarConfig0);
+  _radarWidget.setPixelSubGrid(_subGrid);
+
   // Color Scheme
   if (ui_gridCommon.monochromeFlag()) {
     _radarWidget.setColorScheme<ColorSchemeMono>(0, _multiGrid->gridSize());
@@ -136,6 +151,7 @@ void RadarWidgetControl::setTestData() {
     _radarWidget.setColorScheme<ColorSchemeTurbo>(0, _multiGrid->gridSize());
   }
 
+  _radarWidget.fillImage(ColorRGBA::Aqua());
   // Test Data
   std::vector<double> val(_multiGrid->gridSize());
   std::iota(val.begin(), val.end(), 0);
