@@ -18,6 +18,7 @@ public:
 private:
   struct UiGridCommon {
     Imw::CheckBox secondGridFlag{"Second grid"};
+    Imw::CheckBox subGridFlag{"Sub grid"};
     Imw::SpinBox<int> rotationEdit{"Rotation"};
     Imw::SpinBox<int> distanceRangeEdit{"Distance Range"};
     Imw::SpinBox<int> pixelSizeEdit{"Image Size"};
@@ -57,7 +58,7 @@ private:
       bearingStepEdit.setValueLimits({1, 360});
     }
   };
-  UiGridConfig ui_gridConfig1, ui_gridConfig2;
+  UiGridConfig ui_gridConfig0, ui_gridConfig1, ui_gridConfig2;
 
   RadarWidget &_radarWidget;
   PolarGridConfig _polarConfig1, _polarConfig2, _polarConfig0;

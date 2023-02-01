@@ -4,7 +4,10 @@ RadarWidgetControl::RadarWidgetControl(RadarWidget &widget)
     : _radarWidget(widget) {
   setTestData();
 
-  ui_gridCommon.displayScatterFlag.setValue(true);
+  ui_gridConfig0.bearingLimitsEdit.setValue(0, 0);
+  ui_gridConfig0.bearingLimitsEdit.setValue(360, 1);
+  ui_gridConfig0.bearingStepEdit.setValue(1);
+  ui_gridConfig0.distanceStepEdit.setValue(100);
 
   ui_gridConfig1.distanceLimitsEdit.setValue(100, 0);
   ui_gridConfig1.distanceLimitsEdit.setValue(500, 1);
@@ -17,22 +20,34 @@ RadarWidgetControl::RadarWidgetControl(RadarWidget &widget)
   ui_gridConfig2.distanceStepEdit.setValue(100);
   ui_gridConfig2.bearingStepEdit.setValue(10);
 
+  ui_gridCommon.displayScatterFlag.setValue(true);
+
+  triggerGridConfig(ui_gridConfig0);
   triggerGridConfig(ui_gridConfig1);
   triggerGridConfig(ui_gridConfig2);
   triggerGridCommon(ui_gridCommon);
 }
 
 void RadarWidgetControl::paint() {
-  // Handle
+  // First Grid
   ImGui::TextUnformatted("First Grid");
   const bool handleGrid1{paintGridConfig(ui_gridConfig1, _polarConfig1)};
   ImGui::Separator();
+
+  // Second Grid
   ImGui::TextUnformatted("Second Grid");
   const bool handleGrid2{paintGridConfig(ui_gridConfig2, _polarConfig2)};
   ImGui::Separator();
+
+  // Sub grid
+  ImGui::TextUnformatted("Sub Grid");
+  const bool handleGrid0{paintGridConfig(ui_gridConfig0, _polarConfig0)};
+  ImGui::Separator();
+
+  // Common
   const bool handleCommon{paintGridCommon(ui_gridCommon)};
 
-  if (handleGrid1 || handleGrid2 || handleCommon) {
+  if (handleGrid0 || handleGrid1 || handleGrid2 || handleCommon) {
     setTestData();
   }
 }
@@ -45,6 +60,7 @@ void RadarWidgetControl::triggerGridConfig(UiGridConfig &ui) {
 }
 
 void RadarWidgetControl::triggerGridCommon(UiGridCommon &ui) {
+  ui_gridCommon.subGridFlag.trigger();
   ui_gridCommon.secondGridFlag.trigger();
   ui_gridCommon.rotationEdit.trigger();
   ui_gridCommon.distanceRangeEdit.trigger();
@@ -54,6 +70,8 @@ void RadarWidgetControl::triggerGridCommon(UiGridCommon &ui) {
 
 bool RadarWidgetControl::paintGridCommon(UiGridCommon &ui) {
   ui.secondGridFlag.paint();
+  ImGui::SameLine();
+  ui.subGridFlag.paint();
   ui.rotationEdit.paint();
   ui.distanceRangeEdit.paint();
   ui.pixelSizeEdit.paint();
@@ -62,6 +80,9 @@ bool RadarWidgetControl::paintGridCommon(UiGridCommon &ui) {
 
   bool handle{false};
   if (ui.secondGridFlag.handle()) {
+    handle = true;
+  }
+  if (ui.subGridFlag.handle()) {
     handle = true;
   }
   if (ui.rotationEdit.handle()) {
@@ -135,14 +156,12 @@ void RadarWidgetControl::setTestData() {
   _radarWidget.setPixelGrid(_multiGrid);
 
   // Sub Grid
-  _polarConfig0.setBearingMin(0);
-  _polarConfig0.setBearingMax(360);
-  _polarConfig0.setBearingStep(1);
-  _polarConfig0.setDistanceMin(0);
-  _polarConfig0.setDistanceMax(_polarConfig1.distanceRange());
-  _polarConfig0.setDistanceStep(_polarConfig1.distanceStep());
-  _subGrid->setConfig(_polarConfig0);
-  _radarWidget.setPixelSubGrid(_subGrid);
+  if (ui_gridCommon.subGridFlag()) {
+    _subGrid->setConfig(_polarConfig0);
+    _radarWidget.setPixelSubGrid(_subGrid);
+  } else {
+    _radarWidget.setPixelSubGrid(nullptr);
+  }
 
   // Color Scheme
   if (ui_gridCommon.monochromeFlag()) {
