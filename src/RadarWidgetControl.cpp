@@ -13,7 +13,7 @@ RadarWidgetControl::RadarWidgetControl(RadarWidget &widget)
   ui_gridConfig1.distanceLimitsEdit.setValue(500, 1);
   ui_gridConfig1.distanceStepEdit.setValue(100);
 
-  ui_gridConfig2.distanceLimitsEdit.setValue(500, 0);
+  ui_gridConfig2.distanceLimitsEdit.setValue(501, 0);
   ui_gridConfig2.distanceLimitsEdit.setValue(1000, 1);
   ui_gridConfig2.bearingLimitsEdit.setValue(30, 0);
   ui_gridConfig2.bearingLimitsEdit.setValue(150, 1);
