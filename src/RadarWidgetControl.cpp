@@ -2,7 +2,7 @@
 
 RadarWidgetControl::RadarWidgetControl(RadarWidget &widget)
     : _radarWidget(widget) {
-  setTestData();
+  setSimpleTestData();
 
   ui_gridConfig0.bearingLimitsEdit.setValue(0, 0);
   ui_gridConfig0.bearingLimitsEdit.setValue(360, 1);
@@ -48,7 +48,7 @@ void RadarWidgetControl::paint() {
   const bool handleCommon{paintGridCommon(ui_gridCommon)};
 
   if (handleGrid0 || handleGrid1 || handleGrid2 || handleCommon) {
-    setTestData();
+    setSimpleTestData();
   }
 }
 
@@ -146,21 +146,48 @@ bool RadarWidgetControl::paintGridConfig(UiGridConfig &ui,
   return handle;
 }
 
-void RadarWidgetControl::setTestData() {
+void RadarWidgetControl::setSimpleTestData() {
+  // Data Grid
+  _polarGrid->setConfig({_polarConfig1});
+  _gridData.setGrid(_polarGrid);
+
+  // Test Values
+  std::vector<double> val(_polarGrid->gridSize());
+  std::iota(val.begin(), val.end(), 0);
+  std::vector<double> r{}, phi{};
+  _polarGrid->makePolarMesh(r, phi);
+  _gridData.setPolarValues(r.data(), phi.data(), val.data(),
+                           _polarGrid->gridSize());
+
+  // Color Scheme
+  if (ui_gridCommon.monochromeFlag()) {
+    _radarWidget.setColorScheme<ColorSchemeMono>(0, _polarGrid->gridSize());
+  } else {
+    _radarWidget.setColorScheme<ColorSchemeTurbo>(0, _polarGrid->gridSize());
+  }
+
+  // Radar Widget
+  _radarWidget.resizeImage(_polarGrid->pixelWidth(), _polarGrid->pixelHeight());
+  _radarWidget.fillImage(ColorRGBA::Aqua());
+  _radarWidget.fillImage(_gridData);
+  _radarWidget.renderImage();
+}
+
+void RadarWidgetControl::setMultiTestData() {
   // Grid
   if (ui_gridCommon.secondGridFlag()) {
     _multiGrid->setConfig({_polarConfig1, _polarConfig2});
   } else {
     _multiGrid->setConfig({_polarConfig1});
   }
-  _radarWidget.setPixelGrid(_multiGrid);
+  _gridData.setGrid(_multiGrid);
 
   // Sub Grid
   if (ui_gridCommon.subGridFlag()) {
-    _subGrid->setConfig(_polarConfig0);
-    _radarWidget.setPixelSubGrid(_subGrid);
+    //_subGrid->setConfig(_polarConfig0);
+    //_radarWidget.setPixelSubGrid(_subGrid);
   } else {
-    _radarWidget.setPixelSubGrid(nullptr);
+    //_radarWidget.setPixelSubGrid(nullptr);
   }
 
   // Color Scheme
@@ -170,15 +197,18 @@ void RadarWidgetControl::setTestData() {
     _radarWidget.setColorScheme<ColorSchemeTurbo>(0, _multiGrid->gridSize());
   }
 
-  _radarWidget.fillImage(ColorRGBA::Aqua());
   // Test Data
   std::vector<double> val(_multiGrid->gridSize());
   std::iota(val.begin(), val.end(), 0);
 
   std::vector<double> r{}, phi{};
   _multiGrid->makePolarMesh(r, phi);
-  _radarWidget.setPolarData(r.data(), phi.data(), val.data(),
-                            _multiGrid->gridSize());
+  _gridData.setPolarValues(r.data(), phi.data(), val.data(),
+                           _multiGrid->gridSize());
+
+  _radarWidget.fillImage(ColorRGBA::Aqua());
+  _radarWidget.fillImage(_gridData);
+  _radarWidget.renderImage();
 
   /*
   std::vector<double> x{}, y{};
