@@ -20,6 +20,7 @@ RadarWidgetControl::RadarWidgetControl(RadarWidget &widget)
   ui_gridConfig2.distanceStepEdit.setValue(100);
   ui_gridConfig2.bearingStepEdit.setValue(10);
 
+  ui_gridCommon.multigridFlag.setValue(true);
   ui_gridCommon.displayScatterFlag.setValue(true);
 
   triggerGridConfig(ui_gridConfig0);
@@ -48,7 +49,11 @@ void RadarWidgetControl::paint() {
   const bool handleCommon{paintGridCommon(ui_gridCommon)};
 
   if (handleGrid0 || handleGrid1 || handleGrid2 || handleCommon) {
-    setSimpleTestData();
+    if (ui_gridCommon.multigridFlag()) {
+      setMultiTestData();
+    } else {
+      setSimpleTestData();
+    }
   }
 }
 
@@ -60,6 +65,7 @@ void RadarWidgetControl::triggerGridConfig(UiGridConfig &ui) {
 }
 
 void RadarWidgetControl::triggerGridCommon(UiGridCommon &ui) {
+  ui_gridCommon.multigridFlag.trigger();
   ui_gridCommon.subGridFlag.trigger();
   ui_gridCommon.secondGridFlag.trigger();
   ui_gridCommon.rotationEdit.trigger();
@@ -69,8 +75,8 @@ void RadarWidgetControl::triggerGridCommon(UiGridCommon &ui) {
 }
 
 bool RadarWidgetControl::paintGridCommon(UiGridCommon &ui) {
+  ui.multigridFlag.paint();
   ui.secondGridFlag.paint();
-  ImGui::SameLine();
   ui.subGridFlag.paint();
   ui.rotationEdit.paint();
   ui.distanceRangeEdit.paint();
@@ -152,12 +158,11 @@ void RadarWidgetControl::setSimpleTestData() {
   _gridData.setGrid(_polarGrid);
 
   // Test Values
-  std::vector<double> val(_polarGrid->gridSize());
-  std::iota(val.begin(), val.end(), 0);
-  std::vector<double> r{}, phi{};
+  std::vector<double> r{}, phi{}, val(_polarGrid->gridSize());
   _polarGrid->makePolarMesh(r, phi);
   _gridData.setPolarValues(r.data(), phi.data(), val.data(),
                            _polarGrid->gridSize());
+  _gridData.setRandomValues();
 
   // Color Scheme
   if (ui_gridCommon.monochromeFlag()) {
@@ -198,13 +203,11 @@ void RadarWidgetControl::setMultiTestData() {
   }
 
   // Test Data
-  std::vector<double> val(_multiGrid->gridSize());
-  std::iota(val.begin(), val.end(), 0);
-
-  std::vector<double> r{}, phi{};
+  std::vector<double> r{}, phi{}, val(_multiGrid->gridSize());
   _multiGrid->makePolarMesh(r, phi);
   _gridData.setPolarValues(r.data(), phi.data(), val.data(),
                            _multiGrid->gridSize());
+  _gridData.setLinearValues();
 
   _radarWidget.fillImage(ColorRGBA::Aqua());
   _radarWidget.fillImage(_gridData);

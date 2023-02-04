@@ -17,6 +17,7 @@ public:
 
 private:
   struct UiGridCommon {
+    Imw::CheckBox multigridFlag{"Multigrid"};
     Imw::CheckBox secondGridFlag{"Second grid"};
     Imw::CheckBox subGridFlag{"Sub grid"};
     Imw::SpinBox<int> rotationEdit{"Rotation"};
@@ -26,6 +27,8 @@ private:
     Imw::CheckBox displayScatterFlag{"Display Grid"};
 
     UiGridCommon() {
+      secondGridFlag.setSameLine(true);
+      subGridFlag.setSameLine(true);
       secondGridFlag.setValue(true);
       rotationEdit.setValue(0);
       distanceRangeEdit.setValue(1500);
