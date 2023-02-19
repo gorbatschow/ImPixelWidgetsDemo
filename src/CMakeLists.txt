@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16.0)
 
-project(ImProjectExe)
+project(ImPixelDemoExe)
 
 set(CXX_CMAKE_STANDARD 20)
 set(CXX_CMAKE_STANDARD_REQUIRED ON)

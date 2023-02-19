@@ -2,7 +2,7 @@
 #include <implot.h>
 #include <numeric>
 
-ImPixelWidgetsDemo::ImPixelWidgetsDemo() {
+ImPixelWidgetsDemo::ImPixelWidgetsDemo() : ImApplication("ImPixel Demo") {
   auto config{ImPixel::PolarGridConfig()};
   config.setBearingMin(0);
   config.setBearingMax(181);

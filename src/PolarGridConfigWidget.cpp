@@ -20,9 +20,10 @@ void PolarGridConfigWidget::paint() {
   ui.bearingStepEdit.paint();
   ui.rotationEdit.paint();
   ui.pixelSizeEdit.paint();
-  ui.monochromeFlag.paint();
-  ui.displayScatterFlag.paint();
-  ImGui::Separator();
+  // TODO
+  // ui.monochromeFlag.paint();
+  // ui.displayScatterFlag.paint();
+  // ImGui::Separator();
   // ui.updateGridBtn.paint();
 
   // Handle
