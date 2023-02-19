@@ -18,7 +18,7 @@ public:
 
 private:
   PolarGridConfigWidget _gridConfigWidget{};
-  std::shared_ptr<PixelPolarGrid> _grid{new PixelPolarGrid{}};
-  PixelGridData _data{_grid};
-  PixelGridDataImage _image{};
+  std::shared_ptr<ImPixel::PolarGrid> _grid{new ImPixel::PolarGrid{}};
+  ImPixel::GridData _data{_grid};
+  ImPixel::GridDataImage _image{};
 };

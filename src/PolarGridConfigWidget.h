@@ -1,7 +1,5 @@
 #pragma once
-#include <PixelGridData.h>
-#include <PixelGridDataImage.h>
-#include <PixelMultiPolarGrid.h>
+#include <ImPixel.h>
 #include <imw.h>
 #include <numeric>
 
@@ -19,7 +17,7 @@ public:
 
   // Get Config
   bool configChanged() const { return _configChanged; }
-  void getGridConfig(PolarGridConfig &config) const;
+  void getGridConfig(ImPixel::PolarGridConfig &config) const;
 
 private:
   struct Ui {

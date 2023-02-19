@@ -3,7 +3,7 @@
 #include <numeric>
 
 ImPixelWidgetsDemo::ImPixelWidgetsDemo() {
-  auto config{PolarGridConfig()};
+  auto config{ImPixel::PolarGridConfig()};
   config.setBearingMin(0);
   config.setBearingMax(181);
   config.setDistanceMin(0);
@@ -15,11 +15,11 @@ ImPixelWidgetsDemo::ImPixelWidgetsDemo() {
 void ImPixelWidgetsDemo::paint() {
   ImGui::Begin("Radar Widget Control");
   if (_gridConfigWidget.configChanged()) {
-    auto config{PolarGridConfig()};
+    auto config{ImPixel::PolarGridConfig()};
     _gridConfigWidget.getGridConfig(config);
     _grid->setConfig(config);
     _data.setLinearValues();
-    _image.setColorScheme<ColorSchemeTurbo>(0, _data.size());
+    _image.setColorScheme<ImPixel::ColorSchemeTurbo>(0, _data.size());
     _image.clear();
     _image.fillData(_data);
     _image.render();

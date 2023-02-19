@@ -52,7 +52,8 @@ void PolarGridConfigWidget::paint() {
 
 void PolarGridConfigWidget::setTestData() {}
 
-void PolarGridConfigWidget::getGridConfig(PolarGridConfig &config) const {
+void PolarGridConfigWidget::getGridConfig(
+    ImPixel::PolarGridConfig &config) const {
   config.setDistanceMin(ui.distanceLimitsEdit(0));
   config.setDistanceMax(ui.distanceLimitsEdit(1));
   config.setDistanceStep(ui.distanceStepEdit());
