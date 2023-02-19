@@ -1,6 +1,5 @@
 #pragma once
-#include "RadarWidget.h"
-#include "RadarWidgetControl.h"
+#include "PolarGridConfigWidget.h"
 #include <ImApplication.h>
 
 class ImPixelWidgetsDemo : public ImApplication {
@@ -18,6 +17,8 @@ public:
   void paint() override;
 
 private:
-  RadarWidget _radarWidget;
-  RadarWidgetControl _radarWidgetControl{_radarWidget};
+  PolarGridConfigWidget _gridConfigWidget{};
+  std::shared_ptr<ImPixel::PolarGrid> _grid{new ImPixel::PolarGrid{}};
+  ImPixel::GridData _data{_grid};
+  ImPixel::GridDataImage _image{};
 };
