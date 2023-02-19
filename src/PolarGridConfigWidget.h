@@ -1,20 +1,25 @@
 #pragma once
-#include "RadarWidget.h"
+#include <PixelGridData.h>
+#include <PixelGridDataImage.h>
+#include <PixelMultiPolarGrid.h>
 #include <imw.h>
 #include <numeric>
 
-class RadarWidgetControl {
+class PolarGridConfigWidget {
 public:
   // Constructor
-  RadarWidgetControl(RadarWidget &widget);
+  PolarGridConfigWidget();
 
   // Destructor
-  ~RadarWidgetControl() = default;
+  ~PolarGridConfigWidget() = default;
 
   // Paint
   void paint();
-
   void setTestData();
+
+  // Get Config
+  bool configChanged() const { return _configChanged; }
+  void getGridConfig(PolarGridConfig &config) const;
 
 private:
   struct Ui {
@@ -48,6 +53,6 @@ private:
     }
   };
   Ui ui;
-  RadarWidget &_radarWidget;
-  PolarGrid _polarGrid;
+
+  mutable bool _configChanged{};
 };
